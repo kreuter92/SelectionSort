@@ -1,38 +1,52 @@
 #include <stdio.h>
+#include "selectionSort.h"
+#include <stdlib.h>
+#include <getopt.h>
+#include <string.h>
 
-void tauscheElemente(int *a, int *b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-void selectionSort(int array[], int laenge) {
-    int i = 0;
-    while (i < laenge){
-        int min_stelle = i;
-	int j = i +1;
-        while (j < laenge) {
-            if (array[j] < array[min_stelle])
-                min_stelle = j;
-            j++;
+const char VERSIONSNR[] = "0.1";
+
+int main(int argc, char* argv[]) {
+    int option;
+    char * ptr;
+    while((option = getopt(argc, argv, "hvg:")) != -1)
+        switch(option) {
+        case 'h':
+            printf("-h = Hilfe\n");
+            printf("-v = Version\n");
+            printf("-g = Auswahl, ob aufsteigend oder absteigend sortiert\n");
+	    printf("     hi für aufsteigend und lo für absteigend\n");
+            exit(0);
+        case 'v':
+            printf("Version: %s\n", VERSIONSNR);
+            exit(0);
+	case 'g':
+	    ptr = optarg;
+	    if (strcmp(ptr, "hi")==0){
+		    printf("Es wird aufsteigend sortiert\n");
+	    }
+	    else if (strcmp(ptr, "lo")==0){
+		    printf("Es wird absteigend sortiert\n");
+	    }
+	    else {
+		    printf("Vertippt? Es wird einfach aufsteigend sortiert\n");
+	    }
+	    break;
+	default:
+	    printf("Da ist etwas schiefgegangen.\n");
+	    printf("-h für Hilfe");
+	    exit(0);
 	}
-        tauscheElemente(&array[min_stelle], &array[i]);
-	i++;
-    }
-}
-
-void printArray(int array[], int laenge) {
-    for (int i = 0; i < laenge; ++i) {
-        printf("%d, ", array[i]);
-    }
-    printf("\n");
-}
-
-int main() {
     int daten[] = {5, 2, 1, 4, 3};
     int laenge = sizeof(daten) / sizeof(int);
     printf("Unsortiertes Array:\n");
     printArray(daten, laenge);
-    selectionSort(daten, laenge);
+    if (strcmp(ptr, "lo")==0){
+	    selectionSortDown(daten, laenge);
+    }
+    else{
+	    selectionSortUp(daten, laenge);
+    }
     printf("Sortiertes Array:\n");
     printArray(daten, laenge);
 }
