@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 		    printf("Es wird absteigend sortiert\n");
 	    }
 	    else {
-		    printf("Vertippt? Es wird einfach aufsteigend sortiert\n");
+		    printf("Vertippt? Es wird aufsteigend sortiert\n");
 	    }
 	    break;
 	default:
